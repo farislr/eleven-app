@@ -29,13 +29,7 @@ export default class ProductCard extends Component {
               <Button basic color='green'>
                 Edit
               </Button>
-              <Button
-                basic
-                color='red'
-                onClick={() => {
-                  console.log(product)
-                  return this.props.deleteHandle(product.id)
-                }}>
+              <Button basic color='red' onClick={() => this.props.deleteHandle(product.id)}>
                 Delete
               </Button>
             </div>

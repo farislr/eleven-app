@@ -15,7 +15,7 @@ export default class extends ProductRepository {
     const { page = 1 } = options
 
     try {
-      const { data } = await this.instance.get(`product?page=${page}`)
+      const { data } = await this.instance.get(`product/fetch?page=${page}`)
 
       return data
     } catch (e) {
@@ -27,7 +27,19 @@ export default class extends ProductRepository {
 
   async deleteProduct(id) {
     try {
-      const { data } = await this.instance.delete(`delete/${id}`)
+      const { data } = await this.instance.delete(`product/${id}/delete`)
+
+      return data
+    } catch (e) {
+      console.log(e)
+
+      return e
+    }
+  }
+
+  async getAllProduct() {
+    try {
+      const { data } = await this.instance.get('product')
 
       return data
     } catch (e) {

@@ -10,4 +10,8 @@ export default class {
   deleteProduct(id) {
     throw new Error('Method not implemented')
   }
+
+  getAllProduct() {
+    throw new Error('Method not implemented')
+  }
 }

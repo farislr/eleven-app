@@ -1,11 +1,20 @@
 import React, { Component } from 'react'
+import { Button } from 'semantic-ui-react'
+import styled from 'styled-components'
 
 import CardList from '../components/home/CardList'
 import fetchProductList from '../lib/usecases/fetchProductList'
+import getAllProduct from '../lib/usecases/getAllProduct'
 import deleteProduct from '../lib/usecases/deleteProduct'
 import ProductRequest from '../lib/requests/ProductRequest'
 
 const productRequest = new ProductRequest()
+
+const StyledPage = styled.div`
+  .fetch-button {
+    margin-bottom: 20px;
+  }
+`
 
 export default class Home extends Component {
   constructor() {
@@ -19,16 +28,22 @@ export default class Home extends Component {
   }
 
   async componentDidMount() {
+    console.log(this.props.addProductList)
+
     this.setState({
       productList: await this.productList(),
     })
   }
 
+  componentDidUpdate() {
+    console.log(this.props.addProductList)
+  }
+
   productList = async () => {
     try {
-      const res = await fetchProductList(this.state.options, { productRequest })
+      const { data } = await getAllProduct({ productRequest })
 
-      return res
+      return data
     } catch (e) {
       console.log(e)
 
@@ -36,9 +51,30 @@ export default class Home extends Component {
     }
   }
 
-  deleteProduct = async (id) => await deleteProduct(id, { productRequest })
+  fetchProductList = async () => {
+    const list = await fetchProductList(this.state.options, { productRequest })
+
+    this.setState({
+      productList: list,
+    })
+  }
+
+  deleteProduct = async (id) => {
+    await deleteProduct(id, { productRequest })
+
+    this.setState({
+      productList: [...this.state.productList.filter((product) => product.id !== id)],
+    })
+  }
 
   render() {
-    return <CardList productList={this.state.productList} deleteHandle={this.deleteProduct} />
+    return (
+      <StyledPage>
+        <Button className='fetch-button' onClick={() => this.fetchProductList()}>
+          Fetch Product
+        </Button>
+        <CardList productList={this.state.productList} deleteHandle={this.deleteProduct} />
+      </StyledPage>
+    )
   }
 }
