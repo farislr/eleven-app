@@ -29,7 +29,7 @@ export default class Home extends Component {
 
   async componentDidMount() {
     this.setState({
-      productList: await this.productList(),
+      productList: (await this.productList()) || [],
     })
   }
 

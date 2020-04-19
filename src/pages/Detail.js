@@ -3,7 +3,8 @@ import React, { Component } from 'react'
 import getProductById from '../lib/usecases/getProductById'
 import editProduct from '../lib/usecases/editProduct'
 import ProductRequest from '../lib/requests/ProductRequest'
-import { Form, Button, Image } from 'semantic-ui-react'
+import UploadButton from '../components/detail/UploadImage'
+import { Form, Image } from 'semantic-ui-react'
 import styled from 'styled-components'
 import { observer } from 'mobx-react'
 
@@ -18,9 +19,10 @@ export default observer(
     state = {
       product: {},
       file: '',
+      preview: '',
     }
 
-    product = {}
+    // product = {}
 
     async componentDidMount() {
       const {
@@ -31,6 +33,7 @@ export default observer(
 
       this.setState({
         product: data,
+        preview: data.image,
       })
     }
 
@@ -44,13 +47,31 @@ export default observer(
     }
 
     handleSubmit = async (e) => {
-      const { data, error } = await editProduct(this.state.product.id, this.state.product, { productRequest })
+      const product = { ...this.state.product, image: this.state.file }
+
+      const { error } = await editProduct(product.id, product, { productRequest })
 
       if (error) {
         return alert('Data not submited')
       } else {
-        return data
+        this.props.history.push('/')
       }
+    }
+
+    onUpload = (file) => {
+      let reader = new FileReader()
+
+      reader.onload = (e) => {
+        this.setState({
+          preview: e.target.result,
+        })
+      }
+
+      reader.readAsDataURL(file)
+
+      this.setState({
+        file,
+      })
     }
 
     render() {
@@ -91,10 +112,9 @@ export default observer(
           />
           <Form.Field>
             <StyledImage>
-              <Image src={this.state.product.image} size='medium' />
+              <Image className='product-image' src={this.state.preview} size='medium' />
             </StyledImage>
-            <Button>Upload Image</Button>
-            <input hidden />
+            <UploadButton label='Upload Image' onUpload={this.onUpload}></UploadButton>
           </Form.Field>
           <Form.Button>Submit</Form.Button>
         </Form>
