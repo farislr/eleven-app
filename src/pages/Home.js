@@ -17,8 +17,8 @@ const StyledPage = styled.div`
 `
 
 export default class Home extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       options: {
         page: 1,
@@ -28,16 +28,12 @@ export default class Home extends Component {
   }
 
   async componentDidMount() {
-    console.log(this.props.addProductList)
-
     this.setState({
       productList: await this.productList(),
     })
   }
 
-  componentDidUpdate() {
-    console.log(this.props.addProductList)
-  }
+  componentDidUpdate() {}
 
   productList = async () => {
     try {

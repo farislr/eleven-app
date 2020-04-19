@@ -3,7 +3,7 @@ export default class {
     throw new Error('Method not implemented')
   }
 
-  editProduct(id, data) {
+  editProduct(id, payload) {
     throw new Error('Method not implemented')
   }
 
@@ -12,6 +12,10 @@ export default class {
   }
 
   getAllProduct() {
+    throw new Error('Method not implemented')
+  }
+
+  getProductById() {
     throw new Error('Method not implemented')
   }
 }

@@ -1,3 +1,3 @@
-export default (id, data, { productRequest }) => {
-  return productRequest.editProduct(id, data)
+export default (id, payload, { productRequest }) => {
+  return productRequest.editProduct(id, payload)
 }

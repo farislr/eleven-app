@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Image, Card, Button } from 'semantic-ui-react'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 const StyledCard = styled.div`
   margin-bottom: 28px;
@@ -26,7 +27,7 @@ export default class ProductCard extends Component {
           </Card.Content>
           <Card.Content extra>
             <div className='ui two buttons'>
-              <Button basic color='green'>
+              <Button as={Link} to={`/detail/${product.id}`} basic color='green'>
                 Edit
               </Button>
               <Button basic color='red' onClick={() => this.props.deleteHandle(product.id)}>

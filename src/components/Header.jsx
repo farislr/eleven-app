@@ -10,9 +10,6 @@ export default class Header extends Component {
           <Menu.Item>
             <Link to='/'>Home</Link>
           </Menu.Item>
-          <Menu.Item>
-            <Link to='/detail'>Detail</Link>
-          </Menu.Item>
         </Menu>
       </nav>
     )

@@ -25,6 +25,30 @@ export default class extends ProductRepository {
     }
   }
 
+  async editProduct(id, payload) {
+    let body = new FormData()
+
+    for (const key in payload) {
+      if (payload.hasOwnProperty(key)) {
+        body.append(key, payload[key])
+      }
+    }
+
+    try {
+      const { data } = await this.instance.patch(`product/${id}/edit`, body, {
+        headers: {
+          'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>',
+        },
+      })
+
+      return data
+    } catch (e) {
+      console.log(e)
+
+      return e
+    }
+  }
+
   async deleteProduct(id) {
     try {
       const { data } = await this.instance.delete(`product/${id}/delete`)
@@ -40,6 +64,18 @@ export default class extends ProductRepository {
   async getAllProduct() {
     try {
       const { data } = await this.instance.get('product')
+
+      return data
+    } catch (e) {
+      console.log(e)
+
+      return e
+    }
+  }
+
+  async getProductById(id) {
+    try {
+      const { data } = await this.instance.get(`product/${id}`)
 
       return data
     } catch (e) {
